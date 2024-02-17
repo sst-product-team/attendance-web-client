@@ -18,7 +18,6 @@ const App = () => {
     fetchData();
   }, []);
 
-  console.log("AppLayout Rendered");
   if (attendanceData === null) {
     return <Progress />;
   }

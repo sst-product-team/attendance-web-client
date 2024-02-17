@@ -5,8 +5,12 @@ const fetchAttendanceData = async () => {
       alert("Failed to fetch course details");
       throw new Error("Failed to fetch course details");
     }
-    const courseDetails = await response.json();
-    return courseDetails;
+    const attendanceData = await response.json();
+
+    const sortByEmail = (a, b) => a.mail.localeCompare(b.mail);
+    attendanceData["all_attendance"] =
+      attendanceData["all_attendance"].sort(sortByEmail);
+    return attendanceData;
   } catch (error) {
     console.error(error);
     return null;

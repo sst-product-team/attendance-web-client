@@ -1,4 +1,3 @@
-import ClassDetails from "../components/ClassDetails";
 import Header from "../components/Header";
 
 const StudentPage = ({ allAttendance, classDetails }) => {
