@@ -1,12 +1,12 @@
 // InstructorPage.js
 import React, { useState, useEffect } from "react";
-import ClassDetails from "../components/ClassDetails";
 import StudentRow from "../components/StudentRow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleExclamation,
   faSyncAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import Header from "../components/Header";
 
 const InstructorPage = ({ allAttendance, classDetails }) => {
   const [syncingSet, setSyncingSet] = useState(new Set());
@@ -35,7 +35,7 @@ const InstructorPage = ({ allAttendance, classDetails }) => {
 
   return (
     <div className="">
-      <ClassDetails classDetails={classDetails} />
+      <Header student={false} classDetails={classDetails} />
 
       <div className="fixed top-10 right-4 z-50 flex gap-2 ">
         {syncingSet.size > 0 && (

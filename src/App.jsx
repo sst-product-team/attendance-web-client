@@ -20,12 +20,7 @@ const App = () => {
 
   console.log("AppLayout Rendered");
   if (attendanceData === null) {
-    return (
-      <div className="app">
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        <Progress />
-      </div>
-    );
+    return <Progress />;
   }
 
   if (attendanceData.can_mark_attendance === true) {

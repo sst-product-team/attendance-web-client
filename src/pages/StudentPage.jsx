@@ -1,4 +1,5 @@
 import ClassDetails from "../components/ClassDetails";
+import Header from "../components/Header";
 
 const StudentPage = ({ allAttendance, classDetails }) => {
   function getStatusStyle(status) {
@@ -14,10 +15,9 @@ const StudentPage = ({ allAttendance, classDetails }) => {
   }
 
   return (
-    <div className="">
+    <div>
       <div className="flex justify-between">
-        <ClassDetails classDetails={classDetails} />
-        <p>This page is updated every 5 min</p>
+        <Header student={true} classDetails={classDetails} />
       </div>
       <div className="h-full w-full">
         <table className="w-full mt-8 text-left bg-white border border-gray-300">
