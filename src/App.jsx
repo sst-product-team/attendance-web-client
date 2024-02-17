@@ -1,0 +1,52 @@
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import Progress from "./components/Progress";
+import fetchAttendanceData from "./repository/fetchAttendanceData";
+
+const StudentPage = lazy(() => import("./pages/StudentPage"));
+const InstructorPage = lazy(() => import("./pages/InstructorPage"));
+
+const App = () => {
+  const [attendanceData, setAttendanceData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await fetchAttendanceData();
+      setAttendanceData(data);
+      console.log(data);
+    }
+
+    fetchData();
+  }, []);
+
+  console.log("AppLayout Rendered");
+  if (attendanceData === null) {
+    return (
+      <div className="app">
+        <h1 className="text-3xl font-bold underline">Hello world!</h1>
+        <Progress />
+      </div>
+    );
+  }
+
+  if (attendanceData.can_mark_attendance === true) {
+    return (
+      <Suspense fallback={<Progress />}>
+        <InstructorPage
+          allAttendance={attendanceData.all_attendance}
+          classDetails={attendanceData.current_class}
+        />
+      </Suspense>
+    );
+  } else {
+    return (
+      <Suspense fallback={<Progress />}>
+        <StudentPage
+          allAttendance={attendanceData.all_attendance}
+          classDetails={attendanceData.current_class}
+        />
+      </Suspense>
+    );
+  }
+};
+
+export default App;
