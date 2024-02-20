@@ -1,6 +1,7 @@
-const fetchAttendanceData = async () => {
+const fetchAttendanceData = async (pk) => {
+  let url = pk ? `/attendance/getAttendance/${pk}/` : getAttendanceURL;
   try {
-    const response = await fetch(getAttendanceURL);
+    const response = await fetch(url);
     if (!response.ok) {
       alert("Failed to fetch course details");
       throw new Error("Failed to fetch course details");

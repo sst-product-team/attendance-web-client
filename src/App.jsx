@@ -1,46 +1,53 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Progress from "./components/Progress";
-import fetchAttendanceData from "./repository/fetchAttendanceData";
 
-const StudentPage = lazy(() => import("./pages/StudentPage"));
-const InstructorPage = lazy(() => import("./pages/InstructorPage"));
+const Error = lazy(() => import("./pages/Error"));
+const AttendancePage = lazy(() => import("./pages/AttendancePage"));
+const AttendanceInjestPage = lazy(() => import("./pages/AttendanceInjestPage"));
 
-const App = () => {
-  const [attendanceData, setAttendanceData] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await fetchAttendanceData();
-      setAttendanceData(data);
-      console.log(data);
-    }
-
-    fetchData();
-  }, []);
-
-  if (attendanceData === null) {
-    return <Progress />;
-  }
-
-  if (attendanceData.can_mark_attendance === true) {
-    return (
-      <Suspense fallback={<Progress />}>
-        <InstructorPage
-          allAttendance={attendanceData.all_attendance}
-          classDetails={attendanceData.current_class}
-        />
-      </Suspense>
-    );
-  } else {
-    return (
-      <Suspense fallback={<Progress />}>
-        <StudentPage
-          allAttendance={attendanceData.all_attendance}
-          classDetails={attendanceData.current_class}
-        />
-      </Suspense>
-    );
-  }
+const AppLayout = () => {
+  console.log("AppLayout Rendered");
+  return (
+    <div className="app w-screen h-screen">
+      <Outlet />
+    </div>
+  );
 };
 
-export default App;
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<Progress />}>
+            <AttendancePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/attendance/getAttendanceView/:subjectClassPK/",
+        element: (
+          <Suspense fallback={<Progress />}>
+            <AttendancePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/attendance/injest_to_backend/:subjectClassPK/",
+        element: (
+          <Suspense fallback={<Progress />}>
+            <AttendanceInjestPage />{" "}
+          </Suspense>
+        ),
+      },
+    ],
+  },
+]);
+const AppRouter = () => <RouterProvider router={appRouter} />;
+
+export default AppRouter;
