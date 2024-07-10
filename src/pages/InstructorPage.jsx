@@ -1,5 +1,5 @@
 // InstructorPage.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import StudentRow from "../components/StudentRow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -36,6 +36,13 @@ const InstructorPage = ({ allAttendance, classDetails }) => {
   return (
     <div className="">
       <Header student={false} classDetails={classDetails} />
+      <a
+        href="/admin/attendance/subjectclass/"
+        className="rounded border-2"
+        type="button"
+      >
+        Search differen class
+      </a>
 
       <div className="fixed top-10 right-4 z-50 flex gap-2 ">
         {syncingSet.size > 0 && (
